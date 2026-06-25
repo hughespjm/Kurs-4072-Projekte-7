@@ -106,8 +106,8 @@ for layer_name in INFRA_LAYERS:
         in_raster=DOM_path,
         in_observer_features=beobachter_punkte,
         analysis_type="FREQUENCY",
-        observer_offset=f"{hoehe_angepasst} METERS",
-        surface_offset=SURFACE_OFFSET,
+        observer_offset=SURFACE_OFFSET,
+        surface_offset="0 METERS",
         out_agl_raster=agl_raster_name
     )
 
@@ -128,18 +128,16 @@ for layer_name in INFRA_LAYERS:
     prozent_raster.save(os.path.join(gdb_zwischenergebnis, prozent_name))
     print(f"  Prozentraster gespeichert: {prozent_name}")
 
-    # --- Schritt 4: Statistiktabelle pro Infrastruktur-Layer ---
-    # ZonalStatisticsAsTable berechnet Statistiken des Prozentrasters innerhalb des Polygon-Layers
-    # MEAN = durchschnittlicher Prozentsatz sichtbarer Turbinenhöhe innerhalb des Gebiets
+    # Schritt 4: Statistik AM TURBINENSTANDORT, nicht am Camping-Polygon!
     print(f"  Schritt 4: Statistiktabelle wird erstellt...")
     tabelle_name = f"statistik_{layer_name}"
 
     ZonalStatisticsAsTable(
-        in_zone_data     = layer_path,
-        zone_field       = "OBJECTID",
-        in_value_raster  = prozent_raster,
-        out_table        = os.path.join(gdb_zwischenergebnis, tabelle_name),
-        statistics_type  = "MEAN"
+        in_zone_data=WEA_path,
+        zone_field="OBJECTID",
+        in_value_raster=prozent_raster,
+        out_table=os.path.join(gdb_zwischenergebnis, tabelle_name),
+        statistics_type="MEAN"
     )
     print(f"  Statistiktabelle gespeichert: {tabelle_name}\n")
 
