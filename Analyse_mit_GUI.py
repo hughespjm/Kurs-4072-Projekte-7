@@ -14,6 +14,7 @@ zu_analysierende_layer = arcpy.GetParameterAsText(4) # Feature Layer, mehrere
 anteil_sichtbar = arcpy.GetParameterAsText(5) # integer
 
 wind_or_solar = arcpy.GetParameterAsText(6) # string ("wind", "solar")
+anlagenhoehe = arcpy.GetParameterAsText(7) # integer
 
 # --- Environmental settings --------------------------------------------------------------------------
 
@@ -104,7 +105,7 @@ def zonale_analyse (polygon, area, binary_raster):
 # --- Windpark ---
 if wind_or_solar == "wind":
     # viewshed erstellen
-    viewshed_wND = sichtanalyse(dom, park, 240, int(anteil_sichtbar))
+    viewshed_wND = sichtanalyse(dom, park, float(anlagenhoehe), int(anteil_sichtbar))
     viewshed = Con(IsNull(viewshed_wND), 0, viewshed_wND)
 
     pfad_viewshed_wind = rf"{gdb_ergebnis}\viewshed_wind"
@@ -134,7 +135,7 @@ if wind_or_solar == "wind":
 else:
     pv_punkte = polygon_to_point(park)
 
-    viewshed = sichtanalyse(dom, pv_punkte, 5, int(anteil_sichtbar))
+    viewshed = sichtanalyse(dom, pv_punkte, float(anlagenhoehe), int(anteil_sichtbar))
 
     pfad_viewshed_solar = rf"{gdb_ergebnis}\viewshed_solar"
     if not arcpy.Exists(pfad_viewshed_solar):
