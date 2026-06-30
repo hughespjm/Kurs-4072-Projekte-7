@@ -18,7 +18,9 @@ LAYERS = [
     "Siedlung_Wohnbau",
     "FFH",
     "Landschaftsschutzgebiet",
-    "Digitales_Oberflaechenmodell"
+    "Digitales_Oberflaechenmodell",
+    "Landkreis_RLP",  # manuell importierte RLP-Landkreisgrenzen (EPSG:25832 definiert, ggf. reprojiziert) -
+                        # wird jetzt hier statt live im Download-Skript geprüft
 ]
 
 # -------------------------------------------------------
